@@ -22,6 +22,8 @@ topology_lib_sflow communication library implementation.
 from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
+from topology.libraries.utils import stateprovider
+
 from .parser import parse_pid, parse_sflowtool
 
 
@@ -38,25 +40,7 @@ class SflowtoolState(object):
         self.sflowtool_pid = sflowtool_pid
 
 
-def checkstate(stateclass, statename):
-    def decorator(func):
-        def replacement(enode, *args, **kwargs):
-
-            state = getattr(enode, statename, None)
-            if state is None:
-                state = stateclass()
-                setattr(enode, statename, state)
-
-            return func(enode, state, *args, **kwargs)
-
-        replacement.__name__ = func.__name__
-        replacement.__doc__ = func.__doc__
-
-        return replacement
-    return decorator
-
-
-@checkstate(SflowtoolState, '_sflowtool_state')
+@stateprovider(SflowtoolState)
 def sflowtool_start(enode, state, mode, port=6343):
     """
     Start sflowtool
@@ -80,10 +64,9 @@ def sflowtool_start(enode, state, mode, port=6343):
     cmd.append("2>&1 > {path}/sflowtool.log &".format(path=path))
 
     state.sflowtool_pid = parse_pid(enode(' '.join(cmd), shell='bash'))
-    assert state.sflowtool_pid != ""
 
 
-@checkstate(SflowtoolState, '_sflowtool_state')
+@stateprovider(SflowtoolState)
 def sflowtool_stop(enode, state):
     """
     Stop sflowtool
