@@ -86,7 +86,49 @@ def sflowtool_stop(enode, state):
     )
 
 
+def check_ping_sample(enode, sflow_output, host1, host2, agent_address):
+    """
+    Parse sflowtool output to look for a specific ping request and
+    ping response between two hosts.
+
+    :param enode: Engine node to communicate with.
+    :type enode: topology.platforms.base.BaseNode
+    :param str sflow_output: dict of parsed sflowtool output
+    :param str host1: IP address of host which sends the ping rquest
+    :param str host2: IP address of host which sends the ping response
+    :param str agent_address: sFlow agent IP address
+    :return bool result: A boolean value to indicate presence of ping packets
+                         in sFlow samples (Both request and response)
+    """
+    ping_request = False
+    ping_response = False
+
+    for packet in sflow_output['packets']:
+        if ping_request is False and \
+                packet['packet_type'] == 'FLOW' and \
+                packet['ip_protocol'] == '1' and \
+                int(packet['icmp_type']) == 8 and \
+                packet['src_ip'] == host1 and \
+                packet['dst_ip'] == host2:
+            ping_request = True
+            assert packet['agent_address'] == agent_address
+        if ping_response is False and \
+                packet['packet_type'] == 'FLOW' and \
+                packet['ip_protocol'] == '1' and \
+                int(packet['icmp_type']) == 0 and \
+                packet['src_ip'] == host2 and \
+                packet['dst_ip'] == host1:
+            ping_response = True
+            assert packet['agent_address'] == agent_address
+        if ping_request and ping_response:
+            break
+
+    result = ping_request and ping_response
+    return result
+
+
 __all__ = [
     'sflowtool_start',
-    'sflowtool_stop'
+    'sflowtool_stop',
+    'check_ping_sample'
 ]
