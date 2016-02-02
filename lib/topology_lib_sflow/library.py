@@ -100,6 +100,11 @@ def check_ping_sample(enode, sflow_output, host1, host2, agent_address):
     :return bool result: A boolean value to indicate presence of ping packets
                          in sFlow samples (Both request and response)
     """
+
+    assert sflow_output
+    assert host1, host2
+    assert agent_address
+
     ping_request = False
     ping_response = False
 
