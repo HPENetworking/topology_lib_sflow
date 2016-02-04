@@ -16,13 +16,13 @@
 # under the License.
 
 """
-Test the sflow parsing module.
+Test the sflowtool parsing module.
 """
 
 from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
-from topology_lib_sflow.parser import parse_sflowtool
+from topology_lib_sflowtool.parser import parse_sflowtool
 
 from deepdiff import DeepDiff
 

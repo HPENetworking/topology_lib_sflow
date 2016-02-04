@@ -1,14 +1,14 @@
-========================================
-sflow Communication Library for Topology
-========================================
+============================================
+sflowtool Communication Library for Topology
+============================================
 
-A sflow Communication Library for the Topology Network Framework
+A sflowtool Communication Library for the Topology Network Framework
 
 
 Documentation
 =============
 
-    https://github.com/HPENetworking/topology_lib_sflow/tree/master/doc
+    https://github.com/HPENetworking/topology_lib_sflowtool/tree/master/doc
 
 
 License

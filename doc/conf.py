@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# sflow Communication Library for Topology documentation build configuration
-# file.
+# sflowtool Communication Library for Topology documentation build
+# configuration file.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -15,7 +15,7 @@
 import os
 from os.path import join, dirname, abspath
 
-from topology_lib_sflow import __version__
+from topology_lib_sflowtool import __version__
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -54,7 +54,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'sflow Communication Library for Topology'
+project = 'sflowtool Communication Library for Topology'
 copyright = '2016, Hewlett Packard Enterprise Development LP'
 author = 'Hewlett Packard Enterprise Development LP'
 
@@ -208,7 +208,7 @@ html_last_updated_fmt = '%Y-%m-%d'
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'topology_lib_sflowdoc'
+htmlhelp_basename = 'topology_lib_sflowtooldoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -231,8 +231,8 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (
-        'index', 'topology_lib_sflow.tex',
-        'sflow Communication Library for Topology Documentation',
+        'index', 'topology_lib_sflowtool.tex',
+        'sflowtool Communication Library for Topology Documentation',
         'Hewlett Packard Enterprise Development LP', 'manual'
     ),
 ]
@@ -265,8 +265,8 @@ latex_documents = [
 man_pages = [
     (
         'index',
-        'topology_lib_sflow',
-        'sflow Communication Library for Topology Documentation',
+        'topology_lib_sflowtool',
+        'sflowtool Communication Library for Topology Documentation',
         [author], 1
     ),
 ]
@@ -283,12 +283,13 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        'topology_lib_sflow',
-        'sflow Communication Library for Topology Documentation',
+        'topology_lib_sflowtool',
+        'sflowtool Communication Library for Topology Documentation',
         author,
-        'topology_lib_sflow',
+        'topology_lib_sflowtool',
         (
-            'A sflow Communication Library for the Topology Network Framework'
+            'A sflowtool Communication Library for the Topology Network '
+            'Framework'
         ),
         'Miscellaneous'
     ),
@@ -313,7 +314,7 @@ def setup(app):
 
 # autoapi configuration
 autoapi_modules = {
-    'topology_lib_sflow': None
+    'topology_lib_sflowtool': None
 }
 
 # Configure PlantUML
