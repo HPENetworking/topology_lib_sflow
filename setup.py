@@ -58,8 +58,8 @@ def find_requirements(filename):
 
 
 setup(
-    name='topology_lib_sflow',
-    version=find_version('lib/topology_lib_sflow/__init__.py'),
+    name='topology_lib_sflowtool',
+    version=find_version('lib/topology_lib_sflowtool/__init__.py'),
     package_dir={'': 'lib'},
     packages=find_packages('lib'),
 
@@ -70,11 +70,14 @@ setup(
     author='Hewlett Packard Enterprise Development LP',
     author_email='hpe-networking@lists.hp.com',
     description=(
-        'A sflow Communication Library for the Topology Network Framework'
+        'A sflowtool Communication Library for the Topology Network Framework'
     ),
     long_description=read('README.rst'),
-    url='https://github.com/HPENetworking/topology_lib_sflow/tree/master/doc',
-    keywords='topology_lib_sflow',
+    url=(
+        'https://github.com/HPENetworking/topology_lib_sflowtool/tree/master'
+        '/doc'
+    ),
+    keywords='topology_lib_sflowtool',
 
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -91,7 +94,7 @@ setup(
     # Entry points
     entry_points={
         'topology_library_10': [
-            'sflow = topology_lib_sflow.library'
+            'sflowtool = topology_lib_sflowtool.library'
         ]
     }
 )

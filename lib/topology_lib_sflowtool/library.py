@@ -16,7 +16,7 @@
 # under the License.
 
 """
-topology_lib_sflow communication library implementation.
+topology_lib_sflowtool communication library implementation.
 """
 
 from __future__ import unicode_literals, absolute_import

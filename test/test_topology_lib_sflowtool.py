@@ -16,12 +16,35 @@
 # under the License.
 
 """
-topology_lib_sflow module entry point.
+Test suite for module topology_lib_sflowtool.
+
+See http://pythontesting.net/framework/pytest/pytest-introduction/#fixtures
 """
 
 from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
-__author__ = 'Hewlett Packard Enterprise Development LP'
-__email__ = 'hpe-networking@lists.hp.com'
-__version__ = '0.1.0'
+import pytest  # noqa
+
+from topology_lib_sflowtool import __version__
+
+
+def setup_module(module):
+    print('setup_module({})'.format(module.__name__))
+
+
+def teardown_module(module):
+    print('teardown_module({})'.format(module.__name__))
+
+
+def test_semantic_version():
+    """
+    Check that version follows the Semantic Versioning 2.0.0 specification.
+
+        http://semver.org/
+    """
+    mayor, minor, rev = map(int, __version__.split('.'))
+
+    assert mayor >= 0
+    assert minor >= 0
+    assert rev >= 0

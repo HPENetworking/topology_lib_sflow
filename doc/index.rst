@@ -2,30 +2,30 @@
    :hidden:
 
    developer
-   topology_lib_sflow/topology_lib_sflow
+   topology_lib_sflowtool/topology_lib_sflowtool
 
-========================================
-sflow Communication Library for Topology
-========================================
+============================================
+sflowtool Communication Library for Topology
+============================================
 
 .. container:: float-right
 
    .. image:: _static/images/logo.png
 
-A sflow Communication Library for the Topology Network Framework
+A sflowtool Communication Library for the Topology Network Framework
 
 
 Documentation
 =============
 
 - :doc:`Developer Guide. <developer>`
-- :doc:`Internal Documentation Reference. <topology_lib_sflow/topology_lib_sflow>`
+- :doc:`Internal Documentation Reference. <topology_lib_sflowtool/topology_lib_sflowtool>`
 
 
 Development
 ===========
 
-- `Project repository. <https://github.com/HPENetworking/topology_lib_sflow>`_
+- `Project repository. <https://github.com/HPENetworking/topology_lib_sflowtool>`_
 
 
 License

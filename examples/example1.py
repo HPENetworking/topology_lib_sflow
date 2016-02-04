@@ -16,12 +16,12 @@
 # under the License.
 
 """
-topology_lib_sflow example 1.
+topology_lib_sflowtool example 1.
 """
 
 from __future__ import unicode_literals, absolute_import
 from __future__ import print_function, division
 
-import topology_lib_sflow  # noqa
+import topology_lib_sflowtool  # noqa
 
-# Use topology_lib_sflow in this example
+# Use topology_lib_sflowtool in this example

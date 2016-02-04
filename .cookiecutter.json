@@ -1,11 +1,11 @@
 {
-    "library_name": "topology_lib_sflow",
+    "library_name": "sflowtool",
     "author": "Hewlett Packard Enterprise Development LP",
     "email": "hpe-networking@lists.hp.com",
-    "repo_url": "https://github.com/HPENetworking/topology_lib_sflow",
-    "doc_url": "https://github.com/HPENetworking/topology_lib_sflow/tree/master/doc",
-    "project_name": "sflow Communication Library for Topology",
-    "short_description": "A sflow Communication Library for the Topology Network Framework",
+    "repo_url": "https://github.com/HPENetworking/topology_lib_sflowtool",
+    "doc_url": "https://github.com/HPENetworking/topology_lib_sflowtool/tree/master/doc",
+    "project_name": "sflowtool Communication Library for Topology",
+    "short_description": "A sflowtool Communication Library for the Topology Network Framework",
     "year": "2016",
     "version": "0.1.0"
 }

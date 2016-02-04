@@ -9,7 +9,7 @@ build/*
 
 # Sphinx
 doc/_build/*
-doc/topology_lib_sflow/*
+doc/topology_lib_sflowtool/*
 
 # Tox
 .tox/*
