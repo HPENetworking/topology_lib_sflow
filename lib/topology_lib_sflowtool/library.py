@@ -41,7 +41,7 @@ class SflowtoolState(object):
 
 
 @stateprovider(SflowtoolState)
-def sflowtool_start(enode, state, mode, port=6343):
+def start(enode, state, mode, port=6343):
     """
     Start sflowtool
 
@@ -67,7 +67,7 @@ def sflowtool_start(enode, state, mode, port=6343):
 
 
 @stateprovider(SflowtoolState)
-def sflowtool_stop(enode, state):
+def stop(enode, state):
     """
     Stop sflowtool
 
@@ -87,6 +87,6 @@ def sflowtool_stop(enode, state):
 
 
 __all__ = [
-    'sflowtool_start',
-    'sflowtool_stop'
+    'start',
+    'stop'
 ]

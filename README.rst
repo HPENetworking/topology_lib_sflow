@@ -2,7 +2,7 @@
 sflowtool Communication Library for Topology
 ============================================
 
-A sflowtool Communication Library for the Topology Network Framework
+An sflowtool Communication Library for the Topology Network Framework
 
 
 Documentation
