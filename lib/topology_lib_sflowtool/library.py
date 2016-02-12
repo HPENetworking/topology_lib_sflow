@@ -63,7 +63,7 @@ def start(enode, state, mode, port=6343):
 
     cmd.append("2>&1 > {path}/sflowtool.log &".format(path=path))
 
-    state.sflowtool_pid = parse_pid(enode(' '.join(cmd), shell='bash'))
+    state.sflowtool_pid = parse_pid(enode(' '.join(cmd)))
 
 
 @stateprovider(SflowtoolState)
@@ -77,12 +77,12 @@ def stop(enode, state):
         :func:`topology_lib_sflow.parser.parse_sflowtool`
     """
 
-    enode("kill {pid}".format(pid=state.sflowtool_pid), shell="bash")
+    enode("kill {pid}".format(pid=state.sflowtool_pid))
 
     state.sflowtool_pid = None
 
     return parse_sflowtool(
-        enode("cat {path}/sflowtool.log".format(path=path), shell="bash")
+        enode("cat {path}/sflowtool.log".format(path=path))
     )
 
 
