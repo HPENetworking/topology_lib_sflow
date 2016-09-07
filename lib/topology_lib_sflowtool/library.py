@@ -31,11 +31,13 @@ path = "/tmp"
 
 
 class SflowtoolState(object):
+
     """
     State object for sflowtool.
 
     :param int pid: Process id of the running sFlow collector (sflowtool).
     """
+
     def __init__(self, sflowtool_pid=None):
         self.sflowtool_pid = sflowtool_pid
 
@@ -67,7 +69,7 @@ def start(enode, state, mode, port=6343):
 
 
 @stateprovider(SflowtoolState)
-def stop(enode, state):
+def stop(enode, state, mode='line'):
     """
     Stop sflowtool
 
@@ -82,7 +84,7 @@ def stop(enode, state):
     state.sflowtool_pid = None
 
     return parse_sflowtool(
-        enode("cat {path}/sflowtool.log".format(path=path))
+        enode("cat {path}/sflowtool.log".format(path=path)), mode
     )
 
 
