@@ -100,9 +100,9 @@ def parse_sflowtool(raw_output, mode):
                                     ....(fields in sample)
                                 },
                                 {                
-                                    'sampleType_tag':'0:1'
-                                    'sampleType':'FLOWSAMPLE'
-                                    'headerLen':'64'
+                                    'sampleType_tag':'0:2'
+                                    'sampleType':'COUNTERSSAMPLE'
+                                    'sampleSequenceNo':'1'
                                     ....(fields in sample)
                                 },
                                 ....(all the samples captured in the datagram)
@@ -123,9 +123,9 @@ def parse_sflowtool(raw_output, mode):
                                     ....(fields in sample)
                                 },
                                 {                
-                                    'sampleType_tag':'0:1'
-                                    'sampleType':'FLOWSAMPLE'
-                                    'headerLen':'64'
+                                    'sampleType_tag':'0:2'
+                                    'sampleType':'COUNTERSSAMPLE'
+                                    'sampleSequenceNo':'2'
                                     ....(fields in sample)
                                 },
                                 ....(all the samples captured in the datagram)
