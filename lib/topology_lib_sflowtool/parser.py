@@ -84,55 +84,65 @@ def parse_sflowtool(raw_output, mode):
 
      ::
 
-        [
-            {
-                'datagramSourceIP':'10.10.12.1',
-                'datagramSize':'924',
-                'unixSecondsUTC':'1473185811',
-                ....(fields in datagram packet)
+        {
+            'datagrams':
+            [
+                {
+                    'datagramSourceIP':'10.10.12.1',
+                    'datagramSize':'924',
+                    'unixSecondsUTC':'1473185811',
+                    ....(fields in datagram packet)
 
-                'samples':
-                            [
-                                {                
-                                    'sampleType_tag':'0:1'
-                                    'sampleType':'FLOWSAMPLE'
-                                    'headerLen':'64'
-                                    ....(fields in sample)
-                                },
-                                {                
-                                    'sampleType_tag':'0:2'
-                                    'sampleType':'COUNTERSSAMPLE'
-                                    'sampleSequenceNo':'1'
-                                    ....(fields in sample)
-                                },
-                                ....(all the samples captured in the datagram)
-                            ]
-            },
-            {
-                'datagramSourceIP':'10.10.12.1',
-                'datagramSize':'924',
-                'unixSecondsUTC':'1473185811',
-                ....(fields in datagram packet)
+                    'samples':
+                    [
+                        {                
+                            'sampleType_tag':'0:1'
+                            'sampleType':'FLOWSAMPLE'
+                            'headerLen':'64'
+                            ....(fields in sample)
+                        },
+                        {                
+                            'sampleType_tag':'0:2'
+                            'sampleType':'COUNTERSSAMPLE'
+                            'sampleSequenceNo':'1'
+                            ....(fields in sample)
+                        },
+                    ....(all the samples captured in the datagram)
 
-                'samples':
-                            [
-                                {                
-                                    'sampleType_tag':'0:1'
-                                    'sampleType':'FLOWSAMPLE'
-                                    'headerLen':'64'
-                                    ....(fields in sample)
-                                },
-                                {                
-                                    'sampleType_tag':'0:2'
-                                    'sampleType':'COUNTERSSAMPLE'
-                                    'sampleSequenceNo':'2'
-                                    ....(fields in sample)
-                                },
-                                ....(all the samples captured in the datagram)
-                            ]
-            },
-            ....(all the datagrams captured)
-        ]
+                    'cntr_samples': 1,
+                    'flow_samples': 1,
+                    ]
+                },
+                {
+                    'datagramSourceIP':'10.10.12.1',
+                    'datagramSize':'924',
+                    'unixSecondsUTC':'1473185811',
+                    ....(fields in datagram packet)
+
+                    'samples':
+                    [
+                        {                
+                            'sampleType_tag':'0:1'
+                            'sampleType':'FLOWSAMPLE'
+                            'headerLen':'64'
+                            ....(fields in sample)
+                        },
+                        {                
+                            'sampleType_tag':'0:2'
+                            'sampleType':'COUNTERSSAMPLE'
+                            'sampleSequenceNo':'2'
+                            ....(fields in sample)
+                        },
+                    ....(all the samples captured in the datagram)
+
+                    'cntr_samples': 1,
+                    'flow_samples': 1
+                    ]
+                },
+                ....(all the datagrams captured)
+            ]    
+            'number_of_datagrams': 2
+        }
     """
 
     if mode == 'line':
@@ -181,64 +191,79 @@ def parse_sflowtool(raw_output, mode):
 
     elif mode == 'detail':
 
+        result = {}
+        result['datagrams'] = []
+        result['number_of_datagrams'] = 0
+
+        # Strings to be used while matching datagrams and samples
+        # in the output from sflowtool
         start_datagram = 'startDatagram =================================\n'
         end_datagram = 'endDatagram   =================================\n'
-
         start_sample = 'startSample ----------------------\n'
         end_sample = 'endSample   ----------------------\n'
 
+        # Regex string for identifying start/end of datagrams & samples
         finder = r'{}(.*?){}'
 
+        # Regex to parse datagram attributes
+        datagram_info_re = (
+            r'datagramSourceIP\s(?P<datagramSourceIP>.+)\s'
+            r'datagramSize\s(?P<datagramSize>.+)\s'
+            r'unixSecondsUTC\s(?P<unixSecondsUTC>.+)\s'
+            r'datagramVersion\s(?P<datagramVersion>.+)\s'
+            r'agentSubId\s(?P<agentSubId>.+)\s'
+            r'agent\s(?P<agent>.+)\s'
+            r'packetSequenceNo\s(?P<packetSequenceNo>.+)\s'
+            r'sysUpTime\s(?P<sysUpTime>.+)\s'
+            r'samplesInPacket\s(?P<samplesInPacket>\d+)\s'
+        )
+
+        # Regex for matching attributes inside a sample
+        attribute_re = '((.+) (.+))'
+
+        # Make a list of datagrams from the sflowtool raw output
         datagrams = findall(
             finder.format(start_datagram, end_datagram), raw_output, DOTALL)
 
-        result = []
-        attribute_re = '((?!startSample|endSample)(.+?) (.+))'
-        start_sample_re = 'startSample .+'
-        end_sample_re = 'endSample .+'
-
         for datagram in datagrams:
 
-            result.append(OrderedDict())
-            datagram_lines = datagram.splitlines()
-            sample_flag = False
+            # Get the datagram specific attributes and form a dict
+            re_result = match(datagram_info_re, datagram, DOTALL)
+            datagram_dict = re_result.groupdict()
 
-            for datagram_line in datagram_lines:
+            # Initialize sample specific data inside the datagram_dict
+            datagram_dict['samples'] = []
+            datagram_dict['flow_samples'] = 0
+            datagram_dict['cntr_samples'] = 0
 
-                attribute = match(attribute_re, datagram_line)
-                start_sample = match(start_sample_re, datagram_line)
-                end_sample = match(end_sample_re, datagram_line)
+            # Get list of samples from within the datagram
+            samples = findall(
+                finder.format(start_sample, end_sample), datagram, DOTALL)
 
-                if attribute is not None:
-                    if sample_flag:
-                        result[-1]['samples'][-1][attribute.group(2)] = \
-                            attribute.group(3)
-                        continue
-                    else:
-                        result[-1][attribute.group(2)] = attribute.group(3)
-                        continue
+            for sample in samples:
+                sample_lines = sample.splitlines()
+                sample_dict = {}
 
-                elif start_sample is not None:
-                    if sample_flag:
-                        raise Exception('Nested sample found.')
-                    sample_flag = True
+                # Match the attributes of each sample and populate
+                # into the sample_dict
+                for sample_line in sample_lines:
+                    attribute = match(attribute_re, sample_line)
+                    sample_dict[attribute.group(2)] = attribute.group(3)
 
-                    if 'samples' not in result[-1].keys():
-                        result[-1]['samples'] = [OrderedDict()]
-                        continue
-                    else:
-                        result[-1]['samples'].append(OrderedDict())
+                # Add the sample to the list of samples under the datagram
+                datagram_dict['samples'].append(sample_dict)
 
-                elif end_sample is not None:
-                    if not sample_flag:
-                        raise Exception(
-                            'Ending of sample found without \
-                            it being started before.'
-                        )
-                    sample_flag = False
+                # Increment respective counters based on type of sample
+                if sample_dict['sampleType'] == 'FLOWSAMPLE':
+                    datagram_dict['flow_samples'] += 1
+                elif sample_dict['sampleType'] == 'COUNTERSSAMPLE':
+                    datagram_dict['cntr_samples'] += 1
 
-                else:
-                    raise Exception('Uknown element found.')
+            # Add the parsed datagram to result and increment count
+            # of datagrams
+            result['datagrams'].append(datagram_dict)
+            result['number_of_datagrams'] += 1
+
         return result
 
 
